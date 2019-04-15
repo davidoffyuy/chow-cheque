@@ -10,7 +10,16 @@ import TopTabs from "../TopTabs/TopTabs";
 
 class Layout extends Component {
     state = {
-        tab: 0
+        tab: 0,
+        billAmount: 0.0,
+        tipPercent: 15
+    };
+
+    
+    handleStateChange = (event, name) => {
+        this.setState({
+            [name]: event.target.value
+        });
     };
 
     tabChangeHandler = (event, value) => {
@@ -22,7 +31,7 @@ class Layout extends Component {
         let tabContent = null;
         switch (this.state.tab) {
             case 0:
-                tabContent = <TipCalc />;
+                tabContent = <TipCalc handleChange={this.handleStateChange} billAmount={this.state.billAmount} tipPercent={this.state.tipPercent} />;
                 break;
             case 1:
                 tabContent = <div>Bill Split</div>;
