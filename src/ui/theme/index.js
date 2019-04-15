@@ -1,4 +1,4 @@
-// src/ui/theme/index.js
+// File used by App.js to set the material-ui theme for the site.
 
 import { createMuiTheme } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
@@ -10,5 +10,5 @@ const palette = {
 };
 const themeName = 'Dodger Blue Froly Fisher';
 
-export default createMuiTheme({ palette, themeName,   typography: {
+export default createMuiTheme({ palette, themeName, typography: {
     useNextVariants: true, }});
