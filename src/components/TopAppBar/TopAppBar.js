@@ -15,7 +15,7 @@ const topAppBar = props => {
             <AppBar position="relative" color="primary">
                 <Toolbar>
                     <Typography variant="h6" color="inherit">
-                        Chow Check
+                        Chow Cheque
                     </Typography>
                     <div style={{flexGrow: 1}}></div>
                     <RestaurantMenu style={{fontSize: "24"}} />
