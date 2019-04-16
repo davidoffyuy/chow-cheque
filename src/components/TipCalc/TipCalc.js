@@ -65,33 +65,33 @@ const tipCalc = props => {
                     </TextField>
                 </div>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={7}>
                 <Typography
-                    variant="h6"
+                    variant="h5"
                     color="inherit"
                     className={classes.text_right}>
                     Tip Amount
                 </Typography>
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={5}>
                 <Typography
-                    variant="h6"
+                    variant="h5"
                     color="inherit"
                     className={classes.text_right}>
                     {"$" + props.billAmount * props.tipPercent * 0.01}
                 </Typography>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={7}>
                 <Typography
-                    variant="h6"
+                    variant="h5"
                     color="inherit"
                     className={classes.text_right}>
                     Total Amount
                 </Typography>
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={5}>
                 <Typography
-                    variant="h6"
+                    variant="h5"
                     color="inherit"
                     className={classes.text_right}>
                     {"$" +
