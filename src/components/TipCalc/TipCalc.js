@@ -17,7 +17,6 @@ const tipCalc = props => {
     return (
         <React.Fragment>
             <Grid item xs={12}>
-                <div className={classes.form_element__div}>
                     {/* https://codesandbox.io/s/yvoqly7p8x */}
                     <TextField
                         id="outlined-name"
@@ -37,7 +36,6 @@ const tipCalc = props => {
                             handleFocus(event);
                         }}
                     />
-                </div>
             </Grid>
             <Grid item xs={12}>
                 <div className={classes.form_element__div}>
