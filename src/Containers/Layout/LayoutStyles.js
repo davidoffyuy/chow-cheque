@@ -4,7 +4,13 @@ export default theme => ({
         paddingTop: "10vh"
     },
     tip_calc__container: {
-        paddingLeft: theme.spacing.unit * 2,
-        paddingRight: theme.spacing.unit * 2
+        paddingLeft: theme.spacing.unit * 3,
+        paddingRight: theme.spacing.unit * 3
+    },
+    main_fab: {
+        display: "inline-block",
+        position: "fixed",
+        bottom: theme.spacing.unit * 4,
+        right: theme.spacing.unit * 3
     }
 });

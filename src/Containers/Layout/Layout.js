@@ -3,6 +3,7 @@ import TopAppBar from "../../components/TopAppBar/TopAppBar";
 import TipCalc from "../../components/TipCalc/TipCalc";
 import styles from "./LayoutStyles.js";
 import TopTabs from "../TopTabs/TopTabs";
+import FabController from "../../components/FabController/FabController";
 // import BillSplit from '../../components/BillSplit/BillSplit';
 
 // @material-ui imports
@@ -50,14 +51,21 @@ class Layout extends Component {
 
     handleAddSplitNum = () => {
         const copyNum = this.state.splitNum;
-        this.setState({splitNum: copyNum + 1});
-    }
+        this.setState({ splitNum: copyNum + 1 });
+    };
     handleSubtractSplitNum = () => {
         const copyNum = this.state.splitNum;
-        if (copyNum > 1)
-        {
-            this.setState({splitNum: copyNum - 1});
+        if (copyNum > 1) {
+            this.setState({ splitNum: copyNum - 1 });
+        }
+    };
 
+    fabClickHandler = () => {
+        if (this.state.tab === 0) {
+            this.setState({tab: 1});
+        }
+        if (this.state.tab === 1) {
+            this.setState({tab: 0});
         }
     }
 
@@ -99,6 +107,9 @@ class Layout extends Component {
                             )}
                         </Suspense>
                     </Grid>
+                </div>
+                <div className={classes.main_fab}>
+                    <FabController clicked={this.fabClickHandler} tab={this.state.tab} />
                 </div>
             </React.Fragment>
         );
