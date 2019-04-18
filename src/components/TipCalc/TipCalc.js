@@ -17,25 +17,23 @@ const tipCalc = props => {
     return (
         <React.Fragment>
             <Grid item xs={12}>
-                    {/* https://codesandbox.io/s/yvoqly7p8x */}
-                    <TextField
-                        id="bill-amount"
-                        label="Bill Amount"
-                        onChange={event =>
-                            props.handleChange(event, "billAmount")
-                        }
-                        value={props.billAmount}
-                        margin="normal"
-                        variant="outlined"
-                        // className={classes.bill_amount}
-                        fullWidth
-                        InputProps={{
-                            startAdornment: <InputAdornment>$</InputAdornment>
-                        }}
-                        onFocus={event => {
-                            handleFocus(event);
-                        }}
-                    />
+                {/* https://codesandbox.io/s/yvoqly7p8x */}
+                <TextField
+                    id="bill-amount"
+                    label="Bill Amount"
+                    onChange={event => props.handleChange(event, "billAmount")}
+                    value={props.billAmount}
+                    margin="normal"
+                    variant="outlined"
+                    // className={classes.bill_amount}
+                    fullWidth
+                    InputProps={{
+                        startAdornment: <InputAdornment>$</InputAdornment>
+                    }}
+                    onFocus={event => {
+                        handleFocus(event);
+                    }}
+                />
             </Grid>
             <Grid item xs={12}>
                 <div className={classes.form_element__div}>
@@ -46,9 +44,7 @@ const tipCalc = props => {
                         label="Tip"
                         // className={classes.textField}
                         value={props.tipPercent}
-                        onChange={event =>
-                            props.handleChange(event, "tipPercent")
-                        }
+                        onChange={event => props.handleChange(event, "tipPercent")}
                         // SelectProps={{
                         //     MenuProps: {
                         //         className: classes.menu
@@ -66,37 +62,23 @@ const tipCalc = props => {
                 </div>
             </Grid>
             <Grid item xs={7}>
-                <Typography
-                    variant="h5"
-                    color="inherit"
-                    className={classes.text_right}>
+                <Typography variant="h5" color="inherit" className={classes.text_right}>
                     Tip Amount
                 </Typography>
             </Grid>
             <Grid item xs={5}>
-                <Typography
-                    variant="h5"
-                    color="inherit"
-                    className={classes.text_right}>
-                    {"$" + props.billAmount * props.tipPercent * 0.01}
+                <Typography variant="h5" color="inherit" className={classes.text_right}>
+                    {"$" + props.calcTip()}
                 </Typography>
             </Grid>
             <Grid item xs={7}>
-                <Typography
-                    variant="h5"
-                    color="inherit"
-                    className={classes.text_right}>
+                <Typography variant="h5" color="inherit" className={classes.text_right}>
                     Total Amount
                 </Typography>
             </Grid>
             <Grid item xs={5}>
-                <Typography
-                    variant="h5"
-                    color="inherit"
-                    className={classes.text_right}>
-                    {"$" +
-                        (Number(props.billAmount) +
-                            props.billAmount * props.tipPercent * 0.01)}
+                <Typography variant="h5" color="inherit" className={classes.text_right}>
+                    {"$" + (Number(props.billAmount) + props.calcTip())}
                 </Typography>
             </Grid>
         </React.Fragment>

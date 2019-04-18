@@ -11,14 +11,12 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 
 // LazyLoading
-const LazyBillSplit = React.lazy(() =>
-    import("../../components/BillSplit/BillSplit")
-);
+const LazyBillSplit = React.lazy(() => import("../../components/BillSplit/BillSplit"));
 
 class Layout extends Component {
     state = {
         tab: 0,
-        billAmount: 0,
+        billAmount: "0",
         tipPercent: 15,
         grandTotal: 0,
         splitNum: 2,
@@ -30,8 +28,8 @@ class Layout extends Component {
     };
 
     calcTip = () => {
-        return true;
-    }
+        return (Math.ceil(this.state.billAmount * this.state.tipPercent) * 0.01);
+    };
 
     handleChange = (name, value) => {
         this.setState(
@@ -40,20 +38,16 @@ class Layout extends Component {
             },
             () => {
                 this.setState(prevState => ({
-                    grandTotal:
-                        Number(prevState.billAmount) +
-                        prevState.billAmount * prevState.tipPercent * 0.01
+                    grandTotal: Number(prevState.billAmount) + this.calcTip()
                 }));
             }
         );
-    }
+    };
 
-    twoDecimalCheck = (value) => {
-        if ((value * 100 - Math.floor(value * 100)) === 0) 
-            return true;
-        else
-            return false;
-    }
+    twoDecimalCheck = value => {
+        if (value * 100 - Math.floor(value * 100) === 0) return true;
+        else return false;
+    };
 
     handleTipCalcStateChange = (event, name) => {
         switch (name) {
@@ -88,22 +82,19 @@ class Layout extends Component {
 
     fabClickHandler = () => {
         if (this.state.tab === 0) {
-            this.setState({tab: 1});
+            this.setState({ tab: 1 });
         }
         if (this.state.tab === 1) {
-            this.setState({tab: 0});
+            this.setState({ tab: 0 });
         }
-    }
+    };
 
     render() {
         const { classes } = this.props;
         return (
             <React.Fragment>
                 <TopAppBar />
-                <TopTabs
-                    changeHandler={this.tabChangeHandler}
-                    value={this.state.tab}
-                />
+                <TopTabs changeHandler={this.tabChangeHandler} value={this.state.tab} />
                 <div className={classes.tip_calc__container}>
                     <Grid
                         container
@@ -118,15 +109,14 @@ class Layout extends Component {
                                     handleChange={this.handleTipCalcStateChange}
                                     billAmount={this.state.billAmount}
                                     tipPercent={this.state.tipPercent}
+                                    calcTip={this.calcTip}
                                 />
                             )}
                             {this.state.tab === 1 && (
                                 <LazyBillSplit
                                     handleAdd={this.handleAddSplitNum}
                                     handleSubtract={this.handleSubtractSplitNum}
-                                    handleChange={
-                                        this.handleBillSplitStateChange
-                                    }
+                                    handleChange={this.handleBillSplitStateChange}
                                     splitNum={this.state.splitNum}
                                     grandTotal={this.state.grandTotal}
                                 />
