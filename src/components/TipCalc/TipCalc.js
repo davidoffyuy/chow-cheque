@@ -19,7 +19,7 @@ const tipCalc = props => {
             <Grid item xs={12}>
                     {/* https://codesandbox.io/s/yvoqly7p8x */}
                     <TextField
-                        id="outlined-name"
+                        id="bill-amount"
                         label="Bill Amount"
                         onChange={event =>
                             props.handleChange(event, "billAmount")
@@ -41,7 +41,7 @@ const tipCalc = props => {
                 <div className={classes.form_element__div}>
                     {/* src: https://codesandbox.io/s/lpvqzw5nm9 */}
                     <TextField
-                        id="outlined-select-currency"
+                        id="select-tip"
                         select
                         label="Tip"
                         // className={classes.textField}

@@ -18,20 +18,25 @@ const LazyBillSplit = React.lazy(() =>
 class Layout extends Component {
     state = {
         tab: 0,
-        billAmount: 0.0,
+        billAmount: 0,
         tipPercent: 15,
         grandTotal: 0,
-        splitNum: 2
+        splitNum: 2,
+        remainder: false
     };
 
     tabChangeHandler = (event, value) => {
         this.setState({ tab: value });
     };
 
-    handleTipCalcStateChange = (event, name) => {
+    calcTip = () => {
+        return true;
+    }
+
+    handleChange = (name, value) => {
         this.setState(
             {
-                [name]: event.target.value
+                [name]: value
             },
             () => {
                 this.setState(prevState => ({
@@ -41,6 +46,27 @@ class Layout extends Component {
                 }));
             }
         );
+    }
+
+    twoDecimalCheck = (value) => {
+        if ((value * 100 - Math.floor(value * 100)) === 0) 
+            return true;
+        else
+            return false;
+    }
+
+    handleTipCalcStateChange = (event, name) => {
+        switch (name) {
+            case "billAmount":
+                // Check if Bill Amount entered is a number. Reject all non-numeric values.
+                if (!isNaN(event.target.value) && this.twoDecimalCheck(event.target.value)) {
+                    this.handleChange(name, event.target.value);
+                }
+                break;
+            default:
+                this.handleChange(name, event.target.value);
+                break;
+        }
     };
 
     handleBillSplitStateChange = (event, name) => {
