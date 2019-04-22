@@ -1,7 +1,5 @@
 import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
 import styles from "./BillSplitStyles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";

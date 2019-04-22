@@ -11,7 +11,7 @@ class App extends Component {
         return (
             <MuiThemeProvider theme={theme}>
                 <CssBaseline />
-                <Layout />
+                    <Layout />
             </MuiThemeProvider>
         );
     }

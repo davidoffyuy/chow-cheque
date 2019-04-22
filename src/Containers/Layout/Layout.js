@@ -20,6 +20,19 @@ class Layout extends Component {
         remainder: false
     };
 
+    // componentDidMount() {
+    //     console.log("Context");
+    //     console.log(this.props.contextValue);
+    //     const rootRef = this.props.contextValue.database().ref('testdb').once("value").then(results => {
+    //         console.log(results);
+    //         console.dir(results.key);
+    //         results.forEach(function(posts){
+    //             console.log(posts.val()); // value of the post
+    //             console.log(posts.key); // ID of the post
+    //         });
+    //     });
+    // }
+
     tabChangeHandler = (event, value) => {
         this.setState({ tab: value });
     };
