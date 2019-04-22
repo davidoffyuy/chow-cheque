@@ -4,14 +4,11 @@ import TipCalc from "../../components/TipCalc/TipCalc";
 import styles from "./LayoutStyles.js";
 import TopTabs from "../TopTabs/TopTabs";
 import FabController from "../../components/FabController/FabController";
-// import BillSplit from '../../components/BillSplit/BillSplit';
+import BillSplit from "../../components/BillSplit/BillSplit";
 
 // @material-ui imports
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
-
-// LazyLoading
-const LazyBillSplit = React.lazy(() => import("../../components/BillSplit/BillSplit"));
 
 class Layout extends Component {
     state = {
@@ -28,7 +25,7 @@ class Layout extends Component {
     };
 
     calcTip = () => {
-        return (Math.ceil(this.state.billAmount * this.state.tipPercent) * 0.01);
+        return Math.ceil(this.state.billAmount * this.state.tipPercent) * 0.01;
     };
 
     handleChange = (name, value) => {
@@ -103,25 +100,23 @@ class Layout extends Component {
                         alignItems="center"
                         spacing={16}
                         className={classes.main_content}>
-                        <Suspense fallback={<div>loading</div>}>
-                            {this.state.tab === 0 && (
-                                <TipCalc
-                                    handleChange={this.handleTipCalcStateChange}
-                                    billAmount={this.state.billAmount}
-                                    tipPercent={this.state.tipPercent}
-                                    calcTip={this.calcTip}
-                                />
-                            )}
-                            {this.state.tab === 1 && (
-                                <LazyBillSplit
-                                    handleAdd={this.handleAddSplitNum}
-                                    handleSubtract={this.handleSubtractSplitNum}
-                                    handleChange={this.handleBillSplitStateChange}
-                                    splitNum={this.state.splitNum}
-                                    grandTotal={this.state.grandTotal}
-                                />
-                            )}
-                        </Suspense>
+                        {this.state.tab === 0 && (
+                            <TipCalc
+                                handleChange={this.handleTipCalcStateChange}
+                                billAmount={this.state.billAmount}
+                                tipPercent={this.state.tipPercent}
+                                calcTip={this.calcTip}
+                            />
+                        )}
+                        {this.state.tab === 1 && (
+                            <BillSplit
+                                handleAdd={this.handleAddSplitNum}
+                                handleSubtract={this.handleSubtractSplitNum}
+                                handleChange={this.handleBillSplitStateChange}
+                                splitNum={this.state.splitNum}
+                                grandTotal={this.state.grandTotal}
+                            />
+                        )}
                     </Grid>
                 </div>
                 <div className={classes.main_fab}>
