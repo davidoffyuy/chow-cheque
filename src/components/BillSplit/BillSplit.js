@@ -11,7 +11,7 @@ const billSplit = props => {
     // Set CSS classes
     const { classes } = props;
 
-    let splitAmount = "$" + (props.grandTotal / props.splitNum);
+    let splitAmount = "$" + Math.ceil((props.grandTotal / props.splitNum) * 100) * .01;
 
     return (
         <React.Fragment>
