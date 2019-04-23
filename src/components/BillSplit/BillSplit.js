@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import AddIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveIcon from "@material-ui/icons/RemoveCircle";
 import Paper from "@material-ui/core/Paper";
+import NumSelector from "../../ui/NumSelector/NumSelector";
 
 const billSplit = props => {
     // Set CSS classes
@@ -15,24 +16,18 @@ const billSplit = props => {
 
     return (
         <React.Fragment>
-            <Grid item xs={4} style={{ textAlign: "right" }}>
-                <RemoveIcon style={{ fontSize: 48 }} onClick={props.handleSubtract} />
+            <Grid item xs={6} style={{ textAlign: "center", alignSelf: "flex-end" }}>
+                <Typography variant="h5" style={{verticalAlign: "bottom"}}># of Diners:</Typography>
             </Grid>
-            <Grid item xs={4} style={{ textAlign: "center" }}>
-                <Typography variant="h1">{props.splitNum}</Typography>
-            </Grid>
-            <Grid item xs={4} style={{ textAlign: "left" }}>
-                <AddIcon style={{ fontSize: 48 }} onClick={props.handleAdd} />
+            <Grid item xs={6} style={{ textAlign: "center" }}>
+                <NumSelector value={props.splitNum} leftClick={props.handleSubtract} rightClick={props.handleAdd}/>
             </Grid>
             <Grid item xs={12}>
                 <Paper
                     elevation={2}
-                    style={{ padding: "2rem 2rem", marginTop: "4rem" }}>
+                    style={{ padding: "1rem 1rem", marginTop: "1rem" }}>
                     <Typography variant="subtitle1">
-                        Each person owes...
-                    </Typography>
-                    <Typography variant="subtitle1" style={{textAlign: "right"}}>
-                        {splitAmount}
+                        Each person owes...  {splitAmount}
                     </Typography>
                 </Paper>
             </Grid>
