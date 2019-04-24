@@ -6,14 +6,14 @@ import styles from "./TipCalcStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import ClearIcon from "@material-ui/icons/Clear";
 
 const tipValues = [10, 12.5, 15, 17, 20];
 
 const tipCalc = props => {
     // Set CSS classes
     const { classes } = props;
-    // Function to select contents of input in focus
-    const handleFocus = event => event.target.select();
+
     return (
         <React.Fragment>
             <Grid item xs={12}>
@@ -28,10 +28,13 @@ const tipCalc = props => {
                     // className={classes.bill_amount}
                     fullWidth
                     InputProps={{
-                        startAdornment: <InputAdornment>$</InputAdornment>
-                    }}
-                    onFocus={event => {
-                        handleFocus(event);
+                        startAdornment: <InputAdornment>$</InputAdornment>,
+                        endAdornment:
+                            props.billAmount !== "" ? (
+                                <InputAdornment>
+                                    <ClearIcon onClick={event => props.handleChange(event, "billAmount", "")} />
+                                </InputAdornment>
+                            ) : null
                     }}
                 />
             </Grid>

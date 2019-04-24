@@ -14,7 +14,7 @@ import Grid from "@material-ui/core/Grid";
 class Layout extends Component {
     state = {
         tab: 0,
-        billAmount: "0",
+        billAmount: "",
         billName: "",
         tipPercent: 15,
         grandTotal: 0,
@@ -57,17 +57,18 @@ class Layout extends Component {
         );
     };
 
-    twoDecimalCheck = value => {
-        if (value * 100 - Math.floor(value * 100) === 0) return true;
-        else return false;
-    };
-
-    handleTipCalcStateChange = (event, name) => {
+    handleTipCalcStateChange = (event, name, value = null) => {
         switch (name) {
             case "billAmount":
-                // Check if Bill Amount entered is a number. Reject all non-numeric values.
-                if (!isNaN(event.target.value) && this.twoDecimalCheck(event.target.value)) {
-                    this.handleChange(name, event.target.value);
+                if (value === null) {
+                    // Check if Bill Amount entered is a number. Reject all non-numeric values.
+                    if (!isNaN(event.target.value) && this.twoDecimalCheck(event.target.value)) {
+                        this.handleChange(name, event.target.value);
+                    }
+                }
+                else {
+                    this.handleChange(name, value);
+                    document.getElementById("bill-amount").focus();
                 }
                 break;
             default:
@@ -108,6 +109,13 @@ class Layout extends Component {
                 });
                 break;
         }
+    };
+
+    twoDecimalCheck = value => {
+        if (value * 100 - Math.floor(value * 100) === 0)
+            return true;
+        else 
+            return false;
     };
 
     fabClickHandler = () => {
