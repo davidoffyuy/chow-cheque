@@ -17,9 +17,6 @@ const billSplit = props => {
 
     // calculate $ amount being split among diners
     let splitAmount = "$" + Math.ceil((props.grandTotal / props.splitNum) * 100) / 100;
-    console.log(props.grandTotal);
-    console.log(props.splitNum);
-    console.log(Math.ceil((props.grandTotal / props.splitNum) * 100));
 
     const personsInput = props.persons.map((value, index, personsArr) => {
         return (

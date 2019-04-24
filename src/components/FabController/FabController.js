@@ -1,7 +1,7 @@
 import React from 'react';
 import Fab from "@material-ui/core/Fab";
 import SplitIcon from "@material-ui/icons/CallSplit";
-import MoneyIcon from "@material-ui/icons/AttachMoney";
+import SaveIcon from "@material-ui/icons/CloudUpload";
 import styles from "./FabControllerStyles.js";
 
 
@@ -12,8 +12,8 @@ const fabController = props => {
 
     return (
         <Fab size="large" onClick={props.clicked} color="secondary">
-            {props.tab === 0 && <SplitIcon />}
-            {props.tab === 1 && <MoneyIcon />}
+            {props.tab === 0 && <SplitIcon className={classes.fab_icon} />}
+            {props.tab === 1 && <SaveIcon className={classes.fab_icon} />}
         </Fab>
     )
 

@@ -5,6 +5,7 @@ import styles from "./LayoutStyles.js";
 import TopTabs from "../TopTabs/TopTabs";
 import FabController from "../../components/FabController/FabController";
 import BillSplit from "../../components/BillSplit/BillSplit";
+import SaveBillDialog from "../../components/SaveBillDialog/SaveBillDialog";
 
 // @material-ui imports
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -14,11 +15,12 @@ class Layout extends Component {
     state = {
         tab: 0,
         billAmount: "0",
+        billName: "",
         tipPercent: 15,
         grandTotal: 0,
-        splitNum: 2,
         remainder: false,
-        persons: ["", ""]
+        persons: ["", ""],
+        openSaveBillDialog: false
     };
 
     // componentDidMount() {
@@ -108,23 +110,16 @@ class Layout extends Component {
         }
     };
 
-    handleAddSplitNum = () => {
-        const copyNum = this.state.splitNum;
-        this.setState({ splitNum: copyNum + 1 });
-    };
-    handleSubtractSplitNum = () => {
-        const copyNum = this.state.splitNum;
-        if (copyNum > 1) {
-            this.setState({ splitNum: copyNum - 1 });
-        }
-    };
-
     fabClickHandler = () => {
-        if (this.state.tab === 0) {
-            this.setState({ tab: 1 });
-        }
-        if (this.state.tab === 1) {
-            this.setState({ tab: 0 });
+        switch (this.state.tab) {
+            case 0:
+                this.setState({ tab: 1 });
+                break;
+            case 1:
+                this.setState({ openSaveBillDialog: true });
+                break;
+            default:
+                break;
         }
     };
 
@@ -152,10 +147,8 @@ class Layout extends Component {
                         )}
                         {this.state.tab === 1 && (
                             <BillSplit
-                                handleAdd={this.handleAddSplitNum}
-                                handleSubtract={this.handleSubtractSplitNum}
                                 handleChange={this.handleBillSplitStateChange}
-                                splitNum={this.state.splitNum}
+                                splitNum={this.state.persons.length}
                                 grandTotal={this.state.grandTotal}
                                 persons={this.state.persons}
                             />
@@ -165,6 +158,13 @@ class Layout extends Component {
                 <div className={classes.main_fab}>
                     <FabController clicked={this.fabClickHandler} tab={this.state.tab} />
                 </div>
+                <SaveBillDialog
+                    open={this.state.openSaveBillDialog}
+                    handleClose={() => {
+                        this.setState({ openSaveBillDialog: false });
+                    }}
+                    handleChange={this.handleBillSplitStateChange}
+                />
             </React.Fragment>
         );
     }
