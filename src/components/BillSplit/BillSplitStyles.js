@@ -5,5 +5,13 @@ export default theme => ({
     // }
     text_right: {
         textAlign: "right"
+    },
+    list_container: {
+        width: '100%',
+        maxWidth: 360,
+        backgroundColor: theme.palette.background.paper,
+    },
+    person_icon: {
+                marginRight: theme.spacing.unit
     }
 });

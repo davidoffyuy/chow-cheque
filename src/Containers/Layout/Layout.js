@@ -17,7 +17,8 @@ class Layout extends Component {
         tipPercent: 15,
         grandTotal: 0,
         splitNum: 2,
-        remainder: false
+        remainder: false,
+        persons: ["", ""]
     };
 
     // componentDidMount() {
@@ -38,7 +39,7 @@ class Layout extends Component {
     };
 
     calcTip = () => {
-        return Math.ceil(this.state.billAmount * this.state.tipPercent) * 0.01;
+        return Math.ceil(this.state.billAmount * this.state.tipPercent) / 100;
     };
 
     handleChange = (name, value) => {
@@ -73,10 +74,38 @@ class Layout extends Component {
         }
     };
 
-    handleBillSplitStateChange = (event, name) => {
-        this.setState({
-            [name]: event.target.value
-        });
+    handleBillSplitStateChange = (event = null, name, index = 0) => {
+        let newPersons = null;
+        switch (name) {
+            case "persons":
+                newPersons = [...this.state.persons];
+                newPersons[index] = event.target.value;
+                this.setState({
+                    persons: newPersons
+                });
+                break;
+            case "persons.add":
+                newPersons = [...this.state.persons, ""];
+                this.setState(state => ({
+                    persons: newPersons,
+                    splitNum: state.splitNum + 1
+                }));
+                break;
+            case "persons.subtract":
+                if (this.state.persons.length > 2) {
+                    newPersons = [...this.state.persons, ""].slice(0, this.state.persons.length - 1);
+                    this.setState(state => ({
+                        persons: newPersons,
+                        splitNum: state.splitNum - 1
+                    }));
+                }
+                break;
+            default:
+                this.setState({
+                    [name]: event.target.value
+                });
+                break;
+        }
     };
 
     handleAddSplitNum = () => {
@@ -128,6 +157,7 @@ class Layout extends Component {
                                 handleChange={this.handleBillSplitStateChange}
                                 splitNum={this.state.splitNum}
                                 grandTotal={this.state.grandTotal}
+                                persons={this.state.persons}
                             />
                         )}
                     </Grid>

@@ -14,13 +14,13 @@ const numSelector = props => {
 
     return (
         <div className={classes.num_selector_container}>
-            <div className={classes.num_selector_button_left} onClick={props.leftClick}>
+            <div className={classes.num_selector_button_left} onClick={event => props.leftClick(event, props.leftClickValue)}>
                 <IconArrowLeft style={{fontSize: "32"}} />
             </div>
             <div className={classes.num_selector_display}>
                 <div style={{display: "inline", verticalAlign: "bottom", fontSize: "1.5rem"}}>{displayValue}</div>
             </div>
-            <div className={classes.num_selector_button_right} onClick={props.rightClick}>
+            <div className={classes.num_selector_button_right} onClick={event => props.leftClick(event, props.rightClickValue)}>
                 <IconArrowRight style={{fontSize: "32"}}/>
             </div>
         </div>
