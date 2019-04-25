@@ -17,7 +17,6 @@ class Layout extends Component {
         billAmount: "",
         billName: "",
         tipPercent: 15,
-        grandTotal: 0,
         remainder: false,
         persons: ["", ""],
         openSaveBillDialog: false
@@ -45,16 +44,7 @@ class Layout extends Component {
     };
 
     handleChange = (name, value) => {
-        this.setState(
-            {
-                [name]: value
-            },
-            () => {
-                this.setState(prevState => ({
-                    grandTotal: Number(prevState.billAmount) + this.calcTip()
-                }));
-            }
-        );
+        this.setState({[name]: value});
     };
 
     handleTipCalcStateChange = (event, name, value = null) => {
@@ -117,6 +107,9 @@ class Layout extends Component {
         else 
             return false;
     };
+    convertTwoDecimal = value => {
+        return Math.ceil(value * 100) / 100;
+    }
 
     fabClickHandler = () => {
         switch (this.state.tab) {
@@ -151,14 +144,16 @@ class Layout extends Component {
                                 billAmount={this.state.billAmount}
                                 tipPercent={this.state.tipPercent}
                                 calcTip={this.calcTip}
+                                convertTwoDecimal={this.convertTwoDecimal}
                             />
                         )}
                         {this.state.tab === 1 && (
                             <BillSplit
                                 handleChange={this.handleBillSplitStateChange}
-                                splitNum={this.state.persons.length}
-                                grandTotal={this.state.grandTotal}
+                                billAmount={this.state.billAmount}
+                                calcTip={this.calcTip}                                
                                 persons={this.state.persons}
+                                convertTwoDecimal={this.convertTwoDecimal}
                             />
                         )}
                     </Grid>

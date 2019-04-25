@@ -27,6 +27,7 @@ const tipCalc = props => {
                     variant="outlined"
                     // className={classes.bill_amount}
                     fullWidth
+                    type="number"
                     InputProps={{
                         startAdornment: <InputAdornment>$</InputAdornment>,
                         endAdornment:
@@ -81,7 +82,7 @@ const tipCalc = props => {
             </Grid>
             <Grid item xs={5}>
                 <Typography variant="h5" color="inherit" className={classes.text_right}>
-                    {"$" + (Number(props.billAmount) + props.calcTip())}
+                    {"$" + props.convertTwoDecimal((Number(props.billAmount) + props.calcTip()))}
                 </Typography>
             </Grid>
         </React.Fragment>

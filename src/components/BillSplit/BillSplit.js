@@ -16,8 +16,9 @@ const billSplit = props => {
     const { classes } = props;
 
     // calculate $ amount being split among diners
-    let splitAmount = "$" + Math.ceil((props.grandTotal / props.splitNum) * 100) / 100;
+    let splitAmount = "$" + props.convertTwoDecimal((Number(props.billAmount) + props.calcTip()) / props.persons.length);
 
+    // generating persons TextFields
     const personsInput = props.persons.map((value, index, personsArr) => {
         return (
             <Grid item xs={12} key={"person" + index}>
@@ -55,7 +56,7 @@ const billSplit = props => {
             </Grid>
             <Grid item xs={6} style={{ textAlign: "center" }}>
                 <NumSelector
-                    value={props.splitNum}
+                    value={props.persons.length}
                     leftClick={props.handleChange}
                     rightClick={props.handleChange}
                     rightClickValue="persons.add"
