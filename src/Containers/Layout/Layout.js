@@ -6,6 +6,7 @@ import TopTabs from "../TopTabs/TopTabs";
 import FabController from "../../components/FabController/FabController";
 import BillSplit from "../../components/BillSplit/BillSplit";
 import SaveBillDialog from "../../components/SaveBillDialog/SaveBillDialog";
+import firebase from "firebase";
 
 // @material-ui imports
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -19,21 +20,9 @@ class Layout extends Component {
         tipPercent: 15,
         remainder: false,
         persons: ["", ""],
-        openSaveBillDialog: false
+        openSaveBillDialog: false,
+        user: ""
     };
-
-    // componentDidMount() {
-    //     console.log("Context");
-    //     console.log(this.props.contextValue);
-    //     const rootRef = this.props.contextValue.database().ref('testdb').once("value").then(results => {
-    //         console.log(results);
-    //         console.dir(results.key);
-    //         results.forEach(function(posts){
-    //             console.log(posts.val()); // value of the post
-    //             console.log(posts.key); // ID of the post
-    //         });
-    //     });
-    // }
 
     tabChangeHandler = (event, value) => {
         this.setState({ tab: value });
@@ -44,7 +33,7 @@ class Layout extends Component {
     };
 
     handleChange = (name, value) => {
-        this.setState({[name]: value});
+        this.setState({ [name]: value });
     };
 
     handleTipCalcStateChange = (event, name, value = null) => {
@@ -55,8 +44,7 @@ class Layout extends Component {
                     if (!isNaN(event.target.value) && this.twoDecimalCheck(event.target.value)) {
                         this.handleChange(name, event.target.value);
                     }
-                }
-                else {
+                } else {
                     this.handleChange(name, value);
                     document.getElementById("bill-amount").focus();
                 }
@@ -102,14 +90,12 @@ class Layout extends Component {
     };
 
     twoDecimalCheck = value => {
-        if (value * 100 - Math.floor(value * 100) === 0)
-            return true;
-        else 
-            return false;
+        if (value * 100 - Math.floor(value * 100) === 0) return true;
+        else return false;
     };
     convertTwoDecimal = value => {
         return Math.ceil(value * 100) / 100;
-    }
+    };
 
     fabClickHandler = () => {
         switch (this.state.tab) {
@@ -117,18 +103,90 @@ class Layout extends Component {
                 this.setState({ tab: 1 });
                 break;
             case 1:
-                this.setState({ openSaveBillDialog: true });
+                if (this.state.uid) {
+                    this.setState({ openSaveBillDialog: true });
+                } else {
+                    this.handleLogin();
+                }
                 break;
             default:
                 break;
         }
     };
 
+    // if user is not already logged in, go through log in process
+    handleLogin = () => {
+        if (!this.state.user) {
+            let provider = new firebase.auth.GoogleAuthProvider();
+
+            this.props.firebase
+                .auth()
+                .signInWithPopup(provider)
+                .then(result => {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    var token = result.credential.accessToken;
+                    console.log("token");
+                    console.log(token);
+                    // The signed-in user info.
+                    var user = result.user;
+                    console.log("user.uid");
+                    console.log(user.uid);
+                    this.setState({ user: result.user });
+                    // ...
+                })
+                .catch(function(error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // The email of the user's account used.
+                    var email = error.email;
+                    // The firebase.auth.AuthCredential type that was used.
+                    var credential = error.credential;
+                    // ...
+                });
+        }
+    };
+
+    handleLogout = () => {
+        if (this.state.user)
+        {
+            this.props.firebase.auth().signOut().then(function() {
+                this.setState({user: ""});
+              }).catch(function(error) {
+                // An error happened.
+              });
+        }
+    }
+
+    handleSaveBill = () => {
+        const testData = {
+            billAmount: 12.5,
+            billName: "Test Bill",
+            persons: {
+                David: 0,
+                Diane: 1,
+                Adam: 0
+            }
+        };
+        const newKey = this.props.firebase
+            .database()
+            .ref()
+            .child("bills")
+            .push().key;
+
+        let updates = {};
+        updates["/bills/" + newKey] = testData;
+        this.props.firebase
+            .database()
+            .ref()
+            .update(updates);
+    };
+
     render() {
         const { classes } = this.props;
         return (
             <React.Fragment>
-                <TopAppBar />
+                <TopAppBar photoURL={this.state.user ? this.state.user.photoURL : ""} login={this.handleLogin} logout={this.handleLogout} />
                 <TopTabs changeHandler={this.tabChangeHandler} value={this.state.tab} />
                 <div className={classes.tip_calc__container}>
                     <Grid
@@ -151,7 +209,7 @@ class Layout extends Component {
                             <BillSplit
                                 handleChange={this.handleBillSplitStateChange}
                                 billAmount={this.state.billAmount}
-                                calcTip={this.calcTip}                                
+                                calcTip={this.calcTip}
                                 persons={this.state.persons}
                                 convertTwoDecimal={this.convertTwoDecimal}
                             />
@@ -167,6 +225,7 @@ class Layout extends Component {
                         this.setState({ openSaveBillDialog: false });
                     }}
                     handleChange={this.handleBillSplitStateChange}
+                    handleSaveBill={this.handleSaveBill}
                 />
             </React.Fragment>
         );

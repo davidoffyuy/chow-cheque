@@ -38,7 +38,7 @@ const saveBillDialog = props => {
                 <Button onClick={props.handleClose} color="primary">
                     Cancel
                 </Button>
-                <Button onClick={props.handleClose} color="primary" autoFocus>
+                <Button onClick={props.handleSaveBill} color="primary" autoFocus>
                     Save
                 </Button>
             </DialogActions>

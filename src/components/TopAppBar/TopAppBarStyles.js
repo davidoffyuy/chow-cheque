@@ -11,5 +11,16 @@ export default theme => ({
           color: theme.palette.secondary.main
         }
     },
-    grow: {flexGrow: 1}
+    grow: {flexGrow: 1},
+    app_bar_icon_container: {
+      width: "2rem",
+      height: "2rem",
+      border: "0px solid black",
+      borderRadius: "50% 50%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      overflow: "hidden",
+      cursor: "pointer"
+    }
 });

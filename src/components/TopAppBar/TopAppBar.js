@@ -5,9 +5,11 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
 import styles from "./TopAppBarStyles";
-import RestaurantMenu from "@material-ui/icons/RestaurantMenu";
+import Person from "@material-ui/icons/Person";
 
 const topAppBar = props => {
+    // expects photoURL
+
     const { classes } = props;
 
     return (
@@ -18,7 +20,9 @@ const topAppBar = props => {
                         Chow Cheque
                     </Typography>
                     <div style={{flexGrow: 1}}></div>
-                    <RestaurantMenu style={{fontSize: "24"}} />
+                    <div className={classes.app_bar_icon_container} onClick={props.login}>
+                        {props.photoURL ? <img width="32" height="32" src={props.photoURL} alt="" /> : <Person style={{fontSize: "32"}} />}
+                    </div>
                 </Toolbar>
             </AppBar>
             {/* <div className={classes.myContent}>Testing<LabelOutlined className={classes.myIcon} /></div> */}

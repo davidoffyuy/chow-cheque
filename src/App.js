@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Layout from "./Containers/Layout/Layout";
+import { FirebaseContext } from './Firebase/index';
 
 //@material-ui imports
 import { MuiThemeProvider } from "@material-ui/core/styles";
@@ -11,7 +12,9 @@ class App extends Component {
         return (
             <MuiThemeProvider theme={theme}>
                 <CssBaseline />
-                    <Layout />
+                    <FirebaseContext.Consumer>
+                        {firebase => <Layout firebase={firebase} />}
+                    </FirebaseContext.Consumer>
             </MuiThemeProvider>
         );
     }
