@@ -39,9 +39,7 @@ const billSplit = props => {
                             </InputAdornment>
                         )
                     }}
-                    // onFocus={event => {
-                    //     handleFocus(event);
-                    // }}
+                    required
                 />
             </Grid>
         );

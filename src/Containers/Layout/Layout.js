@@ -24,6 +24,21 @@ class Layout extends Component {
         user: ""
     };
 
+    componentDidMount() {
+        this.props.firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+              // User is signed in.
+              console.log("componentDidMount: user");
+              console.log(user);
+              this.setState({user: user});
+            } else {
+              // No user is signed in.
+              this.setState({user: ""});
+              console.log("user is NOT logged in");
+            }
+          });
+    }
+
     tabChangeHandler = (event, value) => {
         this.setState({ tab: value });
     };
@@ -103,7 +118,7 @@ class Layout extends Component {
                 this.setState({ tab: 1 });
                 break;
             case 1:
-                if (this.state.uid) {
+                if (this.state.user) {
                     this.setState({ openSaveBillDialog: true });
                 } else {
                     this.handleLogin();
@@ -125,8 +140,8 @@ class Layout extends Component {
                 .then(result => {
                     // This gives you a Google Access Token. You can use it to access the Google API.
                     var token = result.credential.accessToken;
-                    console.log("token");
-                    console.log(token);
+                    console.log("credential");
+                    console.log(result.credential);
                     // The signed-in user info.
                     var user = result.user;
                     console.log("user.uid");
@@ -148,6 +163,7 @@ class Layout extends Component {
     };
 
     handleLogout = () => {
+        console.log("signing out");
         if (this.state.user)
         {
             this.props.firebase.auth().signOut().then(function() {
@@ -159,14 +175,15 @@ class Layout extends Component {
     }
 
     handleSaveBill = () => {
-        const testData = {
-            billAmount: 12.5,
-            billName: "Test Bill",
-            persons: {
-                David: 0,
-                Diane: 1,
-                Adam: 0
-            }
+        const personsData = {}
+        for (let i = 0; i < this.state.persons.length; i++) {
+            personsData[this.state.persons[i]] = 0;
+        }
+
+        const postData = {
+            billAmount: this.state.billAmount,
+            billName: this.state.billName,
+            persons: personsData
         };
         const newKey = this.props.firebase
             .database()
@@ -175,7 +192,7 @@ class Layout extends Component {
             .push().key;
 
         let updates = {};
-        updates["/bills/" + newKey] = testData;
+        updates["/bills/" + this.state.user.uid + "/" + newKey] = postData;
         this.props.firebase
             .database()
             .ref()

@@ -20,7 +20,7 @@ const topAppBar = props => {
                         Chow Cheque
                     </Typography>
                     <div style={{flexGrow: 1}}></div>
-                    <div className={classes.app_bar_icon_container} onClick={props.login}>
+                    <div className={classes.app_bar_icon_container} onClick={props.photoURL ? props.logout : props.login}>
                         {props.photoURL ? <img width="32" height="32" src={props.photoURL} alt="" /> : <Person style={{fontSize: "32"}} />}
                     </div>
                 </Toolbar>
