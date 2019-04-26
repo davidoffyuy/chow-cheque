@@ -174,7 +174,15 @@ class Layout extends Component {
         }
     }
 
+    checkPersonsNotEmpty = () => {
+        return  this.state.persons.reduce((acc, value) => {
+            console.log("isNotEmpty"); console.log(acc && (value !== ""));
+            return acc && (value !== "");
+        }, true);
+    }
+
     handleSaveBill = () => {
+
         const personsData = {}
         for (let i = 0; i < this.state.persons.length; i++) {
             personsData[this.state.persons[i]] = 0;
@@ -197,6 +205,8 @@ class Layout extends Component {
             .database()
             .ref()
             .update(updates);
+
+        this.setState({openSaveBillDialog: false});
     };
 
     render() {
@@ -234,7 +244,7 @@ class Layout extends Component {
                     </Grid>
                 </div>
                 <div className={classes.main_fab}>
-                    <FabController clicked={this.fabClickHandler} tab={this.state.tab} />
+                    <FabController clicked={this.fabClickHandler} tab={this.state.tab} disabled={this.state.tab === 1 && !this.checkPersonsNotEmpty()} />
                 </div>
                 <SaveBillDialog
                     open={this.state.openSaveBillDialog}
