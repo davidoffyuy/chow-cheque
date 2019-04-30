@@ -14,6 +14,7 @@ const topTabs = props => {
                 variant="fullWidth">
                 <Tab label="Tip Calc" />
                 <Tab label="Bill Split" />
+                <Tab label="Saved Bills" />
             </Tabs>
         </AppBar>
     );

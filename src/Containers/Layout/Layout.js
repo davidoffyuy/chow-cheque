@@ -2,10 +2,11 @@ import React, { Component, Suspense } from "react";
 import TopAppBar from "../../components/TopAppBar/TopAppBar";
 import TipCalc from "../../components/TipCalc/TipCalc";
 import styles from "./LayoutStyles.js";
-import TopTabs from "../TopTabs/TopTabs";
+import TopTabs from "../../components/TopTabs/TopTabs";
 import FabController from "../../components/FabController/FabController";
 import BillSplit from "../../components/BillSplit/BillSplit";
 import SaveBillDialog from "../../components/SaveBillDialog/SaveBillDialog";
+import SavedBills from "../../components/SavedBills/SavedBills";
 import firebase from "firebase";
 
 // @material-ui imports
@@ -21,23 +22,32 @@ class Layout extends Component {
         remainder: false,
         persons: ["", ""],
         openSaveBillDialog: false,
-        user: ""
+        user: "",
+        bills: ""
     };
 
     componentDidMount() {
         this.props.firebase.auth().onAuthStateChanged(user => {
             if (user) {
-              // User is signed in.
-              console.log("componentDidMount: user");
-              console.log(user);
-              this.setState({user: user});
+                // User is signed in.
+                console.log("componentDidMount: user");
+                console.log(user);
+                this.setState({ user: user });
+
+                let bills = this.props.firebase.database().ref('bills/' + user.uid);
+                bills.on('value', (snapshot) => {
+                    this.setState({bills: snapshot.val()});
+            });
+
+
             } else {
-              // No user is signed in.
-              this.setState({user: ""});
-              console.log("user is NOT logged in");
+                // No user is signed in.
+                this.setState({ user: "" });
+                console.log("user is NOT logged in");
             }
-          });
+        });
     }
+
 
     tabChangeHandler = (event, value) => {
         this.setState({ tab: value });
@@ -138,23 +148,12 @@ class Layout extends Component {
                 .auth()
                 .signInWithPopup(provider)
                 .then(result => {
-                    // This gives you a Google Access Token. You can use it to access the Google API.
-                    var token = result.credential.accessToken;
-                    console.log("credential");
-                    console.log(result.credential);
-                    // The signed-in user info.
-                    var user = result.user;
-                    console.log("user.uid");
-                    console.log(user.uid);
-                    this.setState({ user: result.user });
-                    // ...
+                    console.log("logging in");
                 })
                 .catch(function(error) {
                     // Handle Errors here.
                     var errorCode = error.code;
                     var errorMessage = error.message;
-                    // The email of the user's account used.
-                    var email = error.email;
                     // The firebase.auth.AuthCredential type that was used.
                     var credential = error.credential;
                     // ...
@@ -164,26 +163,29 @@ class Layout extends Component {
 
     handleLogout = () => {
         console.log("signing out");
-        if (this.state.user)
-        {
-            this.props.firebase.auth().signOut().then(function() {
-                this.setState({user: ""});
-              }).catch(function(error) {
-                // An error happened.
-              });
+        if (this.state.user) {
+            this.props.firebase
+                .auth()
+                .signOut()
+                .then(function() {
+                    this.setState({ user: "" });
+                })
+                .catch(function(error) {
+                    // An error happened.
+                });
         }
-    }
+    };
 
     checkPersonsNotEmpty = () => {
-        return  this.state.persons.reduce((acc, value) => {
-            console.log("isNotEmpty"); console.log(acc && (value !== ""));
-            return acc && (value !== "");
+        return this.state.persons.reduce((acc, value) => {
+            console.log("isNotEmpty");
+            console.log(acc && value !== "");
+            return acc && value !== "";
         }, true);
-    }
+    };
 
     handleSaveBill = () => {
-
-        const personsData = {}
+        const personsData = {};
         for (let i = 0; i < this.state.persons.length; i++) {
             personsData[this.state.persons[i]] = 0;
         }
@@ -191,6 +193,9 @@ class Layout extends Component {
         const postData = {
             billAmount: this.state.billAmount,
             billName: this.state.billName,
+            perPersonAmount: this.convertTwoDecimal(
+                (Number(this.state.billAmount) + this.calcTip()) / this.state.persons.length
+            ),
             persons: personsData
         };
         const newKey = this.props.firebase
@@ -206,14 +211,18 @@ class Layout extends Component {
             .ref()
             .update(updates);
 
-        this.setState({openSaveBillDialog: false});
+        this.setState({ openSaveBillDialog: false });
     };
 
     render() {
         const { classes } = this.props;
         return (
             <React.Fragment>
-                <TopAppBar photoURL={this.state.user ? this.state.user.photoURL : ""} login={this.handleLogin} logout={this.handleLogout} />
+                <TopAppBar
+                    photoURL={this.state.user ? this.state.user.photoURL : ""}
+                    login={this.handleLogin}
+                    logout={this.handleLogout}
+                />
                 <TopTabs changeHandler={this.tabChangeHandler} value={this.state.tab} />
                 <div className={classes.tip_calc__container}>
                     <Grid
@@ -241,10 +250,19 @@ class Layout extends Component {
                                 convertTwoDecimal={this.convertTwoDecimal}
                             />
                         )}
+                        {this.state.tab === 2 && 
+                            (<SavedBills 
+                                bills={this.state.bills}
+                            />
+                        )}
                     </Grid>
                 </div>
                 <div className={classes.main_fab}>
-                    <FabController clicked={this.fabClickHandler} tab={this.state.tab} disabled={this.state.tab === 1 && !this.checkPersonsNotEmpty()} />
+                    <FabController
+                        clicked={this.fabClickHandler}
+                        tab={this.state.tab}
+                        disabled={this.state.tab === 1 && !this.checkPersonsNotEmpty()}
+                    />
                 </div>
                 <SaveBillDialog
                     open={this.state.openSaveBillDialog}
