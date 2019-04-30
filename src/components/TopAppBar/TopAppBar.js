@@ -17,7 +17,7 @@ const topAppBar = props => {
             <AppBar position="relative" color="primary">
                 <Toolbar>
                     <Typography variant="h6" color="inherit">
-                        Chow Cheque
+                        Chowculator
                     </Typography>
                     <div style={{flexGrow: 1}}></div>
                     <div className={classes.app_bar_icon_container} onClick={props.photoURL ? props.logout : props.login}>

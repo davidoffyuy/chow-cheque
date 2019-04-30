@@ -118,6 +118,7 @@ class Layout extends Component {
         if (value * 100 - Math.floor(value * 100) === 0) return true;
         else return false;
     };
+
     convertTwoDecimal = value => {
         return Math.ceil(value * 100) / 100;
     };
@@ -205,7 +206,7 @@ class Layout extends Component {
             .push().key;
 
         let updates = {};
-        updates["/bills/" + this.state.user.uid + "/" + newKey] = postData;
+        updates["bills/" + this.state.user.uid + "/" + newKey] = postData;
         this.props.firebase
             .database()
             .ref()
@@ -213,6 +214,11 @@ class Layout extends Component {
 
         this.setState({ openSaveBillDialog: false });
     };
+
+    updatePaidStatus = (event, billId, personName) => {
+        let userRef = this.props.firebase.database().ref('bills/' + this.state.user.uid + "/" + billId + "/persons/");
+        userRef.update({[personName]: event.target.checked ? 1 : 0});
+    }
 
     render() {
         const { classes } = this.props;
@@ -253,6 +259,8 @@ class Layout extends Component {
                         {this.state.tab === 2 && 
                             (<SavedBills 
                                 bills={this.state.bills}
+                                convertTwoDecimal={this.convertTwoDecimal}
+                                updatePaidStatus={this.updatePaidStatus}
                             />
                         )}
                     </Grid>
