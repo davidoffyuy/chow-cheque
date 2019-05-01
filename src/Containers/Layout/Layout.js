@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from "react";
+import React, { Component } from "react";
 import TopAppBar from "../../components/TopAppBar/TopAppBar";
 import TipCalc from "../../components/TipCalc/TipCalc";
 import styles from "./LayoutStyles.js";
@@ -7,7 +7,7 @@ import FabController from "../../components/FabController/FabController";
 import BillSplit from "../../components/BillSplit/BillSplit";
 import SaveBillDialog from "../../components/SaveBillDialog/SaveBillDialog";
 import SavedBills from "../../components/SavedBills/SavedBills";
-import firebase from "firebase";
+import firebase from "firebase"
 
 // @material-ui imports
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -34,12 +34,10 @@ class Layout extends Component {
                 console.log(user);
                 this.setState({ user: user });
 
-                let bills = this.props.firebase.database().ref('bills/' + user.uid);
-                bills.on('value', (snapshot) => {
-                    this.setState({bills: snapshot.val()});
-            });
-
-
+                let bills = this.props.firebase.database().ref("bills/" + user.uid);
+                bills.on("value", snapshot => {
+                    this.setState({ bills: snapshot.val() });
+                });
             } else {
                 // No user is signed in.
                 this.setState({ user: "" });
@@ -49,12 +47,59 @@ class Layout extends Component {
     }
 
 
+    // if user is not already logged in, go through log in process
+    handleLogin = () => {
+        if (!this.state.user) {
+            let provider = new firebase.auth.GoogleAuthProvider();
+
+            this.props.firebase
+                .auth()
+                .signInWithPopup(provider)
+                .then(result => {
+                    console.log("logging in");
+                })
+                .catch(function(error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // The firebase.auth.AuthCredential type that was used.
+                    var credential = error.credential;
+                    // ...
+                });
+        }
+    };
+
+    // if user is not logged in, then start the logout process and set user to nothing
+    handleLogout = () => {
+        console.log("signing out");
+        if (this.state.user) {
+            this.props.firebase
+                .auth()
+                .signOut()
+                .then(function() {
+                    this.setState({ user: "" });
+                })
+                .catch(function(error) {
+                    // An error happened.
+                });
+        }
+    };
+
     tabChangeHandler = (event, value) => {
         this.setState({ tab: value });
     };
 
     calcTip = () => {
         return Math.ceil(this.state.billAmount * this.state.tipPercent) / 100;
+    };
+
+    twoDecimalCheck = value => {
+        if (value * 100 - Math.floor(value * 100) === 0) return true;
+        else return false;
+    };
+
+    convertTwoDecimal = value => {
+        return Math.ceil(value * 100) / 100;
     };
 
     handleChange = (name, value) => {
@@ -114,15 +159,6 @@ class Layout extends Component {
         }
     };
 
-    twoDecimalCheck = value => {
-        if (value * 100 - Math.floor(value * 100) === 0) return true;
-        else return false;
-    };
-
-    convertTwoDecimal = value => {
-        return Math.ceil(value * 100) / 100;
-    };
-
     fabClickHandler = () => {
         switch (this.state.tab) {
             case 0:
@@ -135,45 +171,10 @@ class Layout extends Component {
                     this.handleLogin();
                 }
                 break;
+            case 2:
+                this.setState({ tab: 0 })
             default:
                 break;
-        }
-    };
-
-    // if user is not already logged in, go through log in process
-    handleLogin = () => {
-        if (!this.state.user) {
-            let provider = new firebase.auth.GoogleAuthProvider();
-
-            this.props.firebase
-                .auth()
-                .signInWithPopup(provider)
-                .then(result => {
-                    console.log("logging in");
-                })
-                .catch(function(error) {
-                    // Handle Errors here.
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    // The firebase.auth.AuthCredential type that was used.
-                    var credential = error.credential;
-                    // ...
-                });
-        }
-    };
-
-    handleLogout = () => {
-        console.log("signing out");
-        if (this.state.user) {
-            this.props.firebase
-                .auth()
-                .signOut()
-                .then(function() {
-                    this.setState({ user: "" });
-                })
-                .catch(function(error) {
-                    // An error happened.
-                });
         }
     };
 
@@ -215,9 +216,14 @@ class Layout extends Component {
         this.setState({ openSaveBillDialog: false });
     };
 
-    updatePaidStatus = (event, billId, personName) => {
-        let userRef = this.props.firebase.database().ref('bills/' + this.state.user.uid + "/" + billId + "/persons/");
-        userRef.update({[personName]: event.target.checked ? 1 : 0});
+    handleUpdatePaidStatus = (event, billId, personName) => {
+        let userRef = this.props.firebase.database().ref("bills/" + this.state.user.uid + "/" + billId + "/persons/");
+        userRef.update({ [personName]: event.target.checked ? 1 : 0 });
+    };
+
+    handleDeleteBill = (event, billKey) => {
+        let userRef = this.props.firebase.database().ref("bills/" + this.state.user.uid + "/");
+        userRef.child(billKey).remove();
     }
 
     render() {
@@ -256,11 +262,12 @@ class Layout extends Component {
                                 convertTwoDecimal={this.convertTwoDecimal}
                             />
                         )}
-                        {this.state.tab === 2 && 
-                            (<SavedBills 
+                        {this.state.tab === 2 && (
+                            <SavedBills
                                 bills={this.state.bills}
                                 convertTwoDecimal={this.convertTwoDecimal}
-                                updatePaidStatus={this.updatePaidStatus}
+                                updatePaidStatus={this.handleUpdatePaidStatus}
+                                deleteBill={this.handleDeleteBill}
                             />
                         )}
                     </Grid>

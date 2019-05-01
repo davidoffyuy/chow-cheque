@@ -15,6 +15,7 @@ import Avatar from "@material-ui/core/Avatar";
 import ImageIcon from "@material-ui/icons/Person";
 import Grid from "@material-ui/core/Grid";
 import Checkbox from "@material-ui/core/Checkbox";
+import Button from "@material-ui/core/Button";
 
 const savedBills = props => {
     const { classes } = props;
@@ -38,13 +39,19 @@ const savedBills = props => {
         let displayPersonsList = personsListKeys.map((value, index) => {
             return (
                 <ListItem key={"test" + index}>
-                    <ListItemText primary={personsListKeys[index]} secondary={personsListValues[index] === 1 ? "paid" : "unpaid"} />
+                    <ListItemText
+                        primary={personsListKeys[index]}
+                        secondary={personsListValues[index] === 1 ? "paid" : "unpaid"}
+                    />
                     <ListItemSecondaryAction
                         onClick={() => {
                             console.log("clicked");
                         }}>
-                        <Checkbox id={ +"+" + personsListKeys[index]}
-                            onChange={(event) => {props.updatePaidStatus(event, billId ,personsListKeys[index])}}
+                        <Checkbox
+                            id={+"+" + personsListKeys[index]}
+                            onChange={event => {
+                                props.updatePaidStatus(event, billId, personsListKeys[index]);
+                            }}
                             checked={personsListValues[index] === 1 ? true : false}
                         />
                     </ListItemSecondaryAction>
@@ -59,10 +66,26 @@ const savedBills = props => {
                 onChange={handleChange("panel" + index)}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography className={classes.heading}>{billsValues[index].billName}</Typography>
-                    <Typography className={classes.secondaryHeading}>${billsValues[index].billAmount} (${dollarPerPerson} ea)</Typography>
+                    <Typography className={classes.secondaryHeading}>
+                        ${billsValues[index].billAmount} (${dollarPerPerson} ea)
+                    </Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                    <List dense className={classes.saved_bill_list_item}>{displayPersonsList}</List>
+                    <Grid container direction="row" alignContent="flex-start" alignItems="center">
+                        <Grid item xs={12}>
+                            <List dense className={classes.saved_bill_list_item}>
+                                {displayPersonsList}
+                            </List>
+                        </Grid>
+                        <Grid item xs={12} style={{textAlign: "center"}}>
+                            <Button
+                                style={{textAlign: "center"}}
+                                color="secondary"
+                                onClick={event => props.deleteBill(event, billsKeys[index])}>
+                                delete
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         );
