@@ -16,6 +16,7 @@ import ImageIcon from "@material-ui/icons/Person";
 import Grid from "@material-ui/core/Grid";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
+import formatDate from "../../shared/formatDate";
 
 const savedBills = props => {
     const { classes } = props;
@@ -66,20 +67,26 @@ const savedBills = props => {
                 onChange={handleChange("panel" + index)}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography className={classes.heading}>{billsValues[index].billName}</Typography>
-                    <Typography className={classes.secondaryHeading}>
-                        ${billsValues[index].billAmount} (${dollarPerPerson} ea)
-                    </Typography>
+                    <Typography className={classes.secondaryHeading}>{formatDate(billsValues[index].billDate)}</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <Grid container direction="row" alignContent="flex-start" alignItems="center">
+                        <Grid item xs={6} style={{ textAlign: "left" }}>
+                            <Typography>Total: ${billsValues[index].billAmount}</Typography>
+                        </Grid>
+                        <Grid item xs={6} style={{ textAlign: "right" }}>
+                            <Typography>
+                                ${dollarPerPerson} per person
+                            </Typography>
+                        </Grid>
                         <Grid item xs={12}>
                             <List dense className={classes.saved_bill_list_item}>
                                 {displayPersonsList}
                             </List>
                         </Grid>
-                        <Grid item xs={12} style={{textAlign: "center"}}>
+                        <Grid item xs={12} style={{ textAlign: "center" }}>
                             <Button
-                                style={{textAlign: "center"}}
+                                style={{ textAlign: "center" }}
                                 color="secondary"
                                 onClick={event => props.deleteBill(event, billsKeys[index])}>
                                 delete

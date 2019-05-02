@@ -34,6 +34,7 @@ class Layout extends Component {
                 console.log(user);
                 this.setState({ user: user });
 
+                // Get saved bills from the user after logging in.
                 let bills = this.props.firebase.database().ref("bills/" + user.uid);
                 bills.on("value", snapshot => {
                     this.setState({ bills: snapshot.val() });
@@ -159,6 +160,7 @@ class Layout extends Component {
         }
     };
 
+    // action for the fab button based on which tab user is in.
     fabClickHandler = () => {
         switch (this.state.tab) {
             case 0:
@@ -173,6 +175,7 @@ class Layout extends Component {
                 break;
             case 2:
                 this.setState({ tab: 0 })
+                break;
             default:
                 break;
         }
@@ -193,6 +196,7 @@ class Layout extends Component {
         }
 
         const postData = {
+            billDate: new Date(),
             billAmount: this.state.billAmount,
             billName: this.state.billName,
             perPersonAmount: this.convertTwoDecimal(
