@@ -7,7 +7,7 @@ import FabController from "../../components/FabController/FabController";
 import BillSplit from "../../components/BillSplit/BillSplit";
 import SaveBillDialog from "../../components/SaveBillDialog/SaveBillDialog";
 import SavedBills from "../../components/SavedBills/SavedBills";
-import firebase from "firebase"
+import firebase from "firebase";
 
 // @material-ui imports
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -41,12 +41,14 @@ class Layout extends Component {
                 });
             } else {
                 // No user is signed in.
-                this.setState({ user: "" });
+                this.setState({
+                    user: "",
+                    bills: ""
+                });
                 console.log("user is NOT logged in");
             }
         });
     }
-
 
     // if user is not already logged in, go through log in process
     handleLogin = () => {
@@ -77,9 +79,7 @@ class Layout extends Component {
             this.props.firebase
                 .auth()
                 .signOut()
-                .then(function() {
-                    this.setState({ user: "" });
-                })
+                .then(function() {})
                 .catch(function(error) {
                     // An error happened.
                 });
@@ -174,7 +174,7 @@ class Layout extends Component {
                 }
                 break;
             case 2:
-                this.setState({ tab: 0 })
+                this.setState({ tab: 0 });
                 break;
             default:
                 break;
@@ -228,7 +228,7 @@ class Layout extends Component {
     handleDeleteBill = (event, billKey) => {
         let userRef = this.props.firebase.database().ref("bills/" + this.state.user.uid + "/");
         userRef.child(billKey).remove();
-    }
+    };
 
     render() {
         const { classes } = this.props;

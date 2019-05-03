@@ -34,7 +34,7 @@ const savedBills = props => {
     let billsPanels = billsValues.map((value, index, arr) => {
         let personsListKeys = Object.keys(billsValues[index].persons);
         let personsListValues = Object.values(billsValues[index].persons);
-        let dollarPerPerson = props.convertTwoDecimal(billsValues[index].billAmount / billsValues.length);
+        let dollarPerPerson = props.convertTwoDecimal(billsValues[index].billAmount / personsListKeys.length);
         let billId = billsKeys[index];
 
         let displayPersonsList = personsListKeys.map((value, index) => {
@@ -42,7 +42,8 @@ const savedBills = props => {
                 <ListItem key={"test" + index}>
                     <ListItemText
                         primary={personsListKeys[index]}
-                        secondary={personsListValues[index] === 1 ? "paid" : "unpaid"}
+                        secondary={personsListValues[index] === 1 ? "paid" : "NOT paid"}
+                        secondaryTypographyProps={personsListValues[index] === 1 ? {color: "textSecondary"} : {style: {color: "red"}}}
                     />
                     <ListItemSecondaryAction
                         onClick={() => {
@@ -71,12 +72,12 @@ const savedBills = props => {
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <Grid container direction="row" alignContent="flex-start" alignItems="center">
-                        <Grid item xs={6} style={{ textAlign: "left" }}>
-                            <Typography>Total: ${billsValues[index].billAmount}</Typography>
-                        </Grid>
-                        <Grid item xs={6} style={{ textAlign: "right" }}>
-                            <Typography>
-                                ${dollarPerPerson} per person
+                        <Grid item xs={12} style={{ textAlign: "center" }}>
+                            <Typography inline color="textPrimary">
+                                Total: ${billsValues[index].billAmount}
+                            </Typography>
+                            <Typography inline color="textSecondary" style={{marginLeft: "0.5rem"}}>
+                                (${dollarPerPerson} per person)
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
