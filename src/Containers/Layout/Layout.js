@@ -8,6 +8,7 @@ import BillSplit from "../../components/BillSplit/BillSplit";
 import SaveBillDialog from "../../components/SaveBillDialog/SaveBillDialog";
 import SavedBills from "../../components/SavedBills/SavedBills";
 import firebase from "firebase";
+import MobileAlertSnackbar from '../../ui/MobileAlertSnackbar/MobileAlertSnackbar';
 
 // @material-ui imports
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -23,10 +24,12 @@ class Layout extends Component {
         persons: ["", ""],
         openSaveBillDialog: false,
         user: "",
-        bills: ""
+        bills: "",
+        showMobileAlert: false
     };
 
     componentDidMount() {
+        //Create listener for user authentication state changes.
         this.props.firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 // User is signed in.
@@ -48,6 +51,10 @@ class Layout extends Component {
                 console.log("user is NOT logged in");
             }
         });
+        //Check if user is NOT on mobile
+        if (!(typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
+            this.setState({showMobileAlert: true});
+        }
     }
 
     // if user is not already logged in, go through log in process
@@ -230,6 +237,10 @@ class Layout extends Component {
         userRef.child(billKey).remove();
     };
 
+    handleCloseMobileAlert = () => {
+        this.setState({showMobileAlert: false});
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -291,6 +302,7 @@ class Layout extends Component {
                     handleChange={this.handleBillSplitStateChange}
                     handleSaveBill={this.handleSaveBill}
                 />
+                <MobileAlertSnackbar open={this.state.showMobileAlert} handleClose={this.handleCloseMobileAlert}/>
             </React.Fragment>
         );
     }
