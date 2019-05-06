@@ -19,7 +19,6 @@ const mobileAlertSnackbar = props => {
                 horizontal: "left"
             }}
             open={props.open}
-            // autoHideDuration={6000}
             onClose={props.handleClose}>
             <SnackbarContentWrapper onClose={props.handleClose} variant="warning" message="UI Designed for Mobile!" />
         </Snackbar>

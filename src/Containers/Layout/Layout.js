@@ -25,7 +25,8 @@ class Layout extends Component {
         openSaveBillDialog: false,
         user: "",
         bills: "",
-        showMobileAlert: false
+        showMobileAlert: false,
+        showSnackbar: false
     };
 
     componentDidMount() {
@@ -53,7 +54,7 @@ class Layout extends Component {
         });
         //Check if user is NOT on mobile
         if (!(typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
-            this.setState({showMobileAlert: true});
+            this.setState({showMobileAlert: true, showSnackbar: true});
         }
     }
 
@@ -238,7 +239,7 @@ class Layout extends Component {
     };
 
     handleCloseMobileAlert = () => {
-        this.setState({showMobileAlert: false});
+        this.setState({showMobileAlert: false, showSnackbar: false});
     }
 
     render() {
@@ -292,6 +293,7 @@ class Layout extends Component {
                         clicked={this.fabClickHandler}
                         tab={this.state.tab}
                         disabled={this.state.tab === 1 && !this.checkPersonsNotEmpty()}
+                        move={this.state.showSnackbar}
                     />
                 </div>
                 <SaveBillDialog

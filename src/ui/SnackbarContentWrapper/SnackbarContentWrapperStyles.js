@@ -1,26 +1,31 @@
-import green from '@material-ui/core/colors/green';
-import amber from '@material-ui/core/colors/amber';
+import green from "@material-ui/core/colors/green";
+import orange from "@material-ui/core/colors/orange";
 
 export default theme => ({
     success: {
-      backgroundColor: green[600],
+        backgroundColor: green[600]
     },
     error: {
-      backgroundColor: theme.palette.error.dark,
+        backgroundColor: theme.palette.error.dark
     },
     info: {
-      backgroundColor: theme.palette.primary.dark,
+        backgroundColor: theme.palette.primary.dark
     },
     warning: {
-      backgroundColor: amber[700],
+        backgroundColor: orange[500]
     },
     icon: {
-      fontSize: 20,
-      opacity: 0.9,
-      marginRight: theme.spacing.unit,
+        fontSize: 20,
+        opacity: 0.9
+    },
+    iconVariant: {
+        marginRight: theme.spacing.unit
     },
     message: {
-      display: 'flex',
-      alignItems: 'center',
+        display: "flex",
+        alignItems: "center"
     },
-  });
+    margin: {
+        margin: theme.spacing.unit
+    }
+});

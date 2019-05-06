@@ -5,11 +5,9 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
 import InfoIcon from "@material-ui/icons/Info";
 import { withStyles } from "@material-ui/core/styles";
-// import styles from './SnackbarContentWrapperStyles';
+import styles from './SnackbarContentWrapperStyles';
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import green from "@material-ui/core/colors/green";
-import amber from "@material-ui/core/colors/amber";
 import PropTypes from "prop-types";
 
 // Main Source
@@ -22,41 +20,17 @@ const variantIcon = {
     info: InfoIcon
 };
 
-const styles = theme => ({
-    success: {
-        backgroundColor: green[600]
-    },
-    error: {
-        backgroundColor: theme.palette.error.dark
-    },
-    info: {
-        backgroundColor: theme.palette.primary.dark
-    },
-    warning: {
-        backgroundColor: amber[700]
-    },
-    icon: {
-        fontSize: 20,
-        opacity: 0.9,
-        marginRight: theme.spacing.unit
-    },
-    message: {
-        display: "flex",
-        alignItems: "center"
-    }
-});
-
 const snackbarContentWrapper = props => {
     const { classes, message, onClose, variant } = props;
     const Icon = variantIcon[variant];
 
     return (
         <SnackbarContent
-            className={classes[variant]}
+            className={classes[variant] + " " + classes.margin}
             aria-describedby="client-snackbar"
             message={
                 <span id="client-snackbar" className={classes.message}>
-                    <Icon className={classes.icon} />
+                    <Icon className={classes.icon + " " + classes.iconVariant } />
                     {message}
                 </span>
             }
