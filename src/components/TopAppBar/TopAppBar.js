@@ -21,11 +21,10 @@ const topAppBar = props => {
                     </Typography>
                     <div style={{flexGrow: 1}}></div>
                     <div className={classes.app_bar_icon_container} onClick={props.photoURL ? props.logout : props.login}>
-                        {props.photoURL ? <img width="32" height="32" src={props.photoURL} alt="" /> : <Person style={{fontSize: "32"}} />}
+                        {props.photoURL ? <img width="36" height="36" src={props.photoURL} alt="" /> : <Person style={{fontSize: "36"}} />}
                     </div>
                 </Toolbar>
             </AppBar>
-            {/* <div className={classes.myContent}>Testing<LabelOutlined className={classes.myIcon} /></div> */}
         </React.Fragment>
     );
 };

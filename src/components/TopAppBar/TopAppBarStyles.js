@@ -13,8 +13,8 @@ export default theme => ({
     },
     grow: {flexGrow: 1},
     app_bar_icon_container: {
-      width: "2rem",
-      height: "2rem",
+      width: "36px",
+      height: "36px",
       border: "0px solid black",
       borderRadius: "50% 50%",
       display: "flex",
