@@ -4,25 +4,25 @@ import SnackbarContentWrapper from "../SnackbarContentWrapper/SnackbarContentWra
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
-    testStyle: {
-        width: "100%"
-    }
-})
+  testStyle: {
+    width: "100%"
+  }
+});
 
 const mobileAlertSnackbar = props => {
-    const {classes} = props
+  const { classes } = props;
 
-    return (
-        <Snackbar
-            anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left"
-            }}
-            open={props.open}
-            onClose={props.handleClose}>
-            <SnackbarContentWrapper onClose={props.handleClose} variant="warning" message="UI Designed for Mobile!" />
-        </Snackbar>
-    );
+  return (
+    <Snackbar
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "left"
+      }}
+      open={props.open}
+      onClose={props.handleClose}>
+      <SnackbarContentWrapper onClose={props.handleClose} variant="warning" message="UI Designed for Mobile!" />
+    </Snackbar>
+  );
 };
 
 export default withStyles(styles)(mobileAlertSnackbar);

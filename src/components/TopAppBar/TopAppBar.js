@@ -8,29 +8,33 @@ import styles from "./TopAppBarStyles";
 import Person from "@material-ui/icons/Person";
 
 const topAppBar = props => {
-    // expects photoURL
+  // expects photoURL
 
-    const { classes } = props;
+  const { classes } = props;
 
-    return (
-        <React.Fragment>
-            <AppBar position="relative" color="primary">
-                <Toolbar>
-                    <Typography variant="h6" color="inherit">
-                        Chowculator
-                    </Typography>
-                    <div style={{flexGrow: 1}}></div>
-                    <div className={classes.app_bar_icon_container} onClick={props.photoURL ? props.logout : props.login}>
-                        {props.photoURL ? <img width="36" height="36" src={props.photoURL} alt="" /> : <Person style={{fontSize: "36"}} />}
-                    </div>
-                </Toolbar>
-            </AppBar>
-        </React.Fragment>
-    );
+  return (
+    <React.Fragment>
+      <AppBar position="relative" color="primary">
+        <Toolbar>
+          <Typography variant="h6" color="inherit">
+            Chowculator
+          </Typography>
+          <div style={{ flexGrow: 1 }} />
+          <div className={classes.app_bar_icon_container} onClick={props.photoURL ? props.logout : props.login}>
+            {props.photoURL ? (
+              <img width="36" height="36" src={props.photoURL} alt="" />
+            ) : (
+              <Person style={{ fontSize: "36" }} />
+            )}
+          </div>
+        </Toolbar>
+      </AppBar>
+    </React.Fragment>
+  );
 };
 
 topAppBar.propTypes = {
-    classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(topAppBar);
