@@ -98,14 +98,16 @@ class Layout extends Component {
 
   tabChangeHandler = (event, value) => {
     this.setState({ tab: value });
-    switch(value) {
+
+    // run any actions when a tab is shown
+    switch (value) {
       case 2:
         if (!Boolean(this.state.bills)) {
-          this.setState({showEmptySnackbar: true, showSnackbar: true});
+          this.setState({ showEmptySnackbar: true, showSnackbar: true });
         }
-      break;
+        break;
       default:
-      break;
+        break;
     }
   };
 
@@ -247,12 +249,8 @@ class Layout extends Component {
     userRef.child(billKey).remove();
   };
 
-  handleCloseMobileAlert = () => {
-    this.setState({ showMobileAlertSnackbar: false, showSnackbar: false });
-  };
-
-  handleCloseEmptySnackbar = () => {
-    this.setState({ showEmptySnackbar: false, showSnackbar: false });
+  handleCloseSnackbar = snackBarState => {
+    this.setState({ [snackBarState]: false, showSnackbar: false });
   };
 
   render() {
@@ -318,8 +316,11 @@ class Layout extends Component {
           handleChange={this.handleBillSplitStateChange}
           handleSaveBill={this.handleSaveBill}
         />
-        <MobileAlertSnackbar open={this.state.showMobileAlertSnackbar} handleClose={this.handleCloseMobileAlert} />
-        <EmptySnackbar handleClose={this.handleCloseEmptySnackbar} open={this.state.showEmptySnackbar} />
+        <MobileAlertSnackbar
+          open={this.state.showMobileAlertSnackbar}
+          handleClose={() => this.handleCloseSnackbar("showMobileAlertSnackbar")}
+        />
+        <EmptySnackbar handleClose={() => this.handleCloseSnackbar("showEmptySnackbar")} open={this.state.showEmptySnackbar} />
       </React.Fragment>
     );
   }
