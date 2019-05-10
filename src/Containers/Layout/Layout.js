@@ -8,7 +8,8 @@ import BillSplit from "../../components/BillSplit/BillSplit";
 import SaveBillDialog from "../../components/SaveBillDialog/SaveBillDialog";
 import SavedBills from "../../components/SavedBills/SavedBills";
 import firebase from "firebase";
-import MobileAlertSnackbar from "../../ui/MobileAlertSnackbar/MobileAlertSnackbar";
+import MobileAlertSnackbar from "../../components/Snackbars/MobileAlertSnackbar/MobileAlertSnackbar";
+import EmptySnackbar from "../../components/Snackbars/EmptySnackbar/EmptySnackbar";
 
 // @material-ui imports
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -25,7 +26,8 @@ class Layout extends Component {
     openSaveBillDialog: false,
     user: "",
     bills: "",
-    showMobileAlert: false,
+    showMobileAlertSnackbar: false,
+    showEmptySnackbar: false,
     showSnackbar: false
   };
 
@@ -54,7 +56,7 @@ class Layout extends Component {
     });
     //Check if user is NOT on mobile
     if (!(typeof window.orientation !== "undefined") || navigator.userAgent.indexOf("IEMobile") !== -1) {
-      this.setState({ showMobileAlert: true, showSnackbar: true });
+      this.setState({ showMobileAlertSnackbar: true, showSnackbar: true });
     }
   }
 
@@ -96,6 +98,15 @@ class Layout extends Component {
 
   tabChangeHandler = (event, value) => {
     this.setState({ tab: value });
+    switch(value) {
+      case 2:
+        if (!Boolean(this.state.bills)) {
+          this.setState({showEmptySnackbar: true, showSnackbar: true});
+        }
+      break;
+      default:
+      break;
+    }
   };
 
   calcTip = () => {
@@ -237,7 +248,11 @@ class Layout extends Component {
   };
 
   handleCloseMobileAlert = () => {
-    this.setState({ showMobileAlert: false, showSnackbar: false });
+    this.setState({ showMobileAlertSnackbar: false, showSnackbar: false });
+  };
+
+  handleCloseEmptySnackbar = () => {
+    this.setState({ showEmptySnackbar: false, showSnackbar: false });
   };
 
   render() {
@@ -282,6 +297,7 @@ class Layout extends Component {
                 convertTwoDecimal={this.convertTwoDecimal}
                 updatePaidStatus={this.handleUpdatePaidStatus}
                 deleteBill={this.handleDeleteBill}
+                handleCloseSnackbar={this.handleCloseSnackbar}
               />
             )}
           </Grid>
@@ -302,7 +318,8 @@ class Layout extends Component {
           handleChange={this.handleBillSplitStateChange}
           handleSaveBill={this.handleSaveBill}
         />
-        <MobileAlertSnackbar open={this.state.showMobileAlert} handleClose={this.handleCloseMobileAlert} />
+        <MobileAlertSnackbar open={this.state.showMobileAlertSnackbar} handleClose={this.handleCloseMobileAlert} />
+        <EmptySnackbar handleClose={this.handleCloseEmptySnackbar} open={this.state.showEmptySnackbar} />
       </React.Fragment>
     );
   }

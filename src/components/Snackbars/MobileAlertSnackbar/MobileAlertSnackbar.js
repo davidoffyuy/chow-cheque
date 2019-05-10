@@ -1,6 +1,6 @@
 import React from "react";
 import Snackbar from "@material-ui/core/Snackbar";
-import SnackbarContentWrapper from "../SnackbarContentWrapper/SnackbarContentWrapper";
+import SnackbarContentWrapper from "../../../ui/SnackbarContentWrapper/SnackbarContentWrapper";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
