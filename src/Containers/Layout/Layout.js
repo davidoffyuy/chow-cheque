@@ -249,7 +249,7 @@ class Layout extends Component {
           login={this.handleLogin}
           logout={this.handleLogout}
         />
-        <TopTabs changeHandler={this.tabChangeHandler} value={this.state.tab} />
+        <TopTabs changeHandler={this.tabChangeHandler} value={this.state.tab} loggedIn={Boolean(this.state.user)} />
         <div className={classes.tip_calc__container}>
           <Grid
             container

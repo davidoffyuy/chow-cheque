@@ -14,7 +14,7 @@ const topTabs = props => {
                 variant="fullWidth">
                 <Tab label="Tip Calc" />
                 <Tab label="Bill Split" />
-                <Tab label="Saved Bills" />
+                <Tab label="Saved Bills" disabled={!props.loggedIn} />
             </Tabs>
         </AppBar>
     );
