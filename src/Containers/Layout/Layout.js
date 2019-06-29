@@ -223,6 +223,8 @@ class Layout extends Component {
       ),
       persons: personsData
     };
+
+    // Get a key for a new Post.
     const newKey = this.props.firebase
       .database()
       .ref()
