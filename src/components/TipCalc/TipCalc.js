@@ -10,7 +10,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 
 const tipValues = [10, 12.5, 15, 17, 20];
 
-const tipCalc = props => {
+const TipCalc = props => {
   // Set CSS classes
   const { classes } = props;
 
@@ -89,4 +89,4 @@ const tipCalc = props => {
   );
 };
 
-export default withStyles(styles)(tipCalc);
+export default withStyles(styles)(TipCalc);

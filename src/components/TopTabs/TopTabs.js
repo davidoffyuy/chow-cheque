@@ -3,7 +3,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
-const topTabs = props => {
+const TopTabs = props => {
     return (
         <AppBar position="static" color="default">
             <Tabs
@@ -20,4 +20,4 @@ const topTabs = props => {
     );
 };
 
-export default topTabs;
+export default TopTabs;

@@ -9,7 +9,7 @@ const styles = theme => ({
   menuItem: {}
 });
 
-const userMenu = props => {
+const UserMenu = props => {
   const { classes } = props;
 
   return (
@@ -29,4 +29,4 @@ const userMenu = props => {
   );
 };
 
-export default withStyles(styles)(userMenu);
+export default withStyles(styles)(UserMenu);

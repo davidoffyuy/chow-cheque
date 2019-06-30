@@ -9,7 +9,7 @@ const styles = theme => ({
   }
 });
 
-const mobileAlertSnackbar = props => {
+const MobileAlertSnackbar = props => {
   const { classes } = props;
 
   return (
@@ -25,4 +25,4 @@ const mobileAlertSnackbar = props => {
   );
 };
 
-export default withStyles(styles)(mobileAlertSnackbar);
+export default withStyles(styles)(MobileAlertSnackbar);

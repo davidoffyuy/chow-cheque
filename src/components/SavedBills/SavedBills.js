@@ -18,7 +18,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import formatDate from "../../shared/formatDate";
 
-const savedBills = props => {
+const SavedBills = props => {
   const { classes } = props;
 
   // Hooks
@@ -110,4 +110,4 @@ const savedBills = props => {
   );
 };
 
-export default withStyles(styles)(savedBills);
+export default withStyles(styles)(SavedBills);

@@ -9,7 +9,7 @@ const styles = theme => ({
   }
 });
 
-const emptySnackbar = props => {
+const EmptySnackbar = props => {
   const { classes } = props;
 
   return (
@@ -25,4 +25,4 @@ const emptySnackbar = props => {
   );
 };
 
-export default withStyles(styles)(emptySnackbar);
+export default withStyles(styles)(EmptySnackbar);

@@ -7,7 +7,7 @@ import styles from "./FabControllerStyles.js";
 
 import withStyles from "@material-ui/core/styles/withStyles";
 
-const fabController = props => {
+const FabController = props => {
   const { classes } = props;
 
   return (
@@ -24,4 +24,4 @@ const fabController = props => {
   );
 };
 
-export default withStyles(styles)(fabController);
+export default withStyles(styles)(FabController);

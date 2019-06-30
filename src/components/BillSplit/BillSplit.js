@@ -11,7 +11,7 @@ import TextField from "@material-ui/core/TextField";
 import PersonIcon from "@material-ui/icons/Person";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
-const billSplit = props => {
+const BillSplit = props => {
     // Set CSS classes
     const { classes } = props;
 
@@ -71,4 +71,4 @@ const billSplit = props => {
     );
 };
 
-export default withStyles(styles)(billSplit);
+export default withStyles(styles)(BillSplit);

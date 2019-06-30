@@ -6,9 +6,9 @@ import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
 import styles from "./TopAppBarStyles";
 import Person from "@material-ui/icons/Person";
-import UserMenu from "./UserMenu/userMenu";
+import UserMenu from "./UserMenu/UserMenu";
 
-const topAppBar = props => {
+const TopAppBar = props => {
   // expects photoURL, logout(), login()
 
   const { classes } = props;
@@ -48,8 +48,8 @@ const topAppBar = props => {
   );
 };
 
-topAppBar.propTypes = {
+TopAppBar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(topAppBar);
+export default withStyles(styles)(TopAppBar);
